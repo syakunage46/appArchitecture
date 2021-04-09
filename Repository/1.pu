@@ -1,0 +1,40 @@
+@startuml fluxRedux
+!include ../style.pu
+rectangle InterfaseAdapters {
+  object Repository {
+    DataSourceのUseCasesにあたる
+  }
+}
+rectangle UseCases {
+  object GetResource {
+    DataSourceのUseCase
+    ローカルになかったらリモートから取るとか
+    詳しいDataSourceの使い方が書いてある
+  }
+}
+rectangle Entities {
+  object DataSource {
+    ローカルとリモートのデータソースを統合したもの
+  }
+
+  object LocalDataSource {
+    DBとか
+  }
+
+  object RemoteDataSource {
+    Apiとか
+  }
+}
+
+note right of Entities
+ApiとかDBって
+Framework層だけど
+どうすんの
+end note
+
+Repository --> GetResource
+GetResource --> DataSource
+DataSource *-- LocalDataSource
+DataSource *-- RemoteDataSource
+
+@enduml

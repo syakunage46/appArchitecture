@@ -1,0 +1,115 @@
+@startuml fluxRedux
+!include ../style.pu
+
+skinparam BackgroundColor #333
+
+rectangle Frameworks {
+  object View {
+    ViewModelとBinding
+    (ViewModelの値が更新されたら
+    Viewを更新する)
+    Controllerにイベントを通知
+  }
+
+  object Api
+
+  object DB
+}
+
+rectangle InterfaseAdapters {
+  object Controller {
+    Viewイベントをもとに
+    UseCaseを実行
+  }
+
+  object Presenter {
+    UseCase層から
+    受け取ったデータを
+    View用に変換する
+  }
+
+  object ViewModel {
+    Presenterから受け取った
+    View用のデータを保持する
+  }
+
+  object Gateway {
+    Repositoryにあたる
+  }
+}
+
+rectangle "Redux?" as Redux {
+  rectangle "UseCases?" as UseCases {
+    object ActionCreator {
+      ViewイベントをActionに変換する
+      非同期処理もする場合があるが
+      分けた方がいい
+    }
+
+    object Store {
+      Stateを更新・保持する
+    }
+
+    Interface ActionDataProvider {
+      こんなものはないけど
+      UseCase層から
+      Gatewayにアクセスするために
+      名前微妙
+    }
+
+    Interface StateRecipient {
+      UseCase層から
+      Presenterにアクセスするために
+    }
+  }
+
+  rectangle Entities {
+    object Reducer {
+      ActionとStateから
+      あたらしいStateを作る
+      方法を書く
+    }
+
+    object Dispatcher {
+      ActionをStateに変換して
+      Storeに配信する
+    }
+
+    Interface Accepter {
+      Entitiesから
+      UseCase層にアクセス
+    }
+  }
+
+  note bottom of Store
+    (State) -> Stateを
+    Dispatcherから
+    受け取ればいい気がする
+    そのラムダの作り方を
+    Reducerに書くとか
+  end note
+}
+
+
+DB <-- Gateway
+Api <-- Gateway
+
+View --> Controller
+View -- ViewModel
+ViewModel <- Presenter 
+
+Gateway --|> ActionDataProvider
+ActionDataProvider <- ActionCreator
+
+Presenter --|> StateRecipient
+Store -> StateRecipient
+
+Controller --> ActionCreator
+ActionCreator --> Dispatcher
+Dispatcher -> Accepter
+Store --|> Accepter
+
+Dispatcher -- Reducer
+
+
+@enduml

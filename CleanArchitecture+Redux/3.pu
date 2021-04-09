@@ -1,0 +1,127 @@
+@startuml fluxRedux
+!include ../style.pu
+
+skinparam BackgroundColor #333
+
+rectangle Frameworks {
+  object View {
+    ViewModelとBinding
+    (ViewModelの値が更新されたら
+    Viewを更新する)
+    Controllerにイベントを通知
+  }
+
+  object Api
+
+  object DB
+}
+
+rectangle InterfaseAdapters {
+  object Controller {
+    Viewイベントをもとに
+    UseCaseを実行
+  }
+
+  object Presenter {
+    UseCase層から
+    受け取ったデータを
+    View用に変換する
+  }
+
+  object ViewModel {
+    Presenterから受け取った
+    View用のデータを保持する
+  }
+
+  object Gateway {
+    Repositoryにあたる
+  }
+}
+
+rectangle UseCases {
+  interface DataProvider
+  object EventOperator {
+    EntitiesがEventの型に依存できないので
+    Eventを見てActionPlanを実行する
+    仲介役立てとく
+  }
+  object StateTranslator {
+    こんなものはない
+    Stateから関心のある情報だけ
+    OutPutPort(Presenter)に渡す
+  }
+  interface StateElementListener
+}
+
+rectangle Entities {
+  Interface ActionDataProvider {
+    こんなものはないけど
+    Entities層から
+    UseCase層にアクセスするために
+  }
+  Interface StateRecipient {
+    Entities層から
+    UseCase層にアクセスするために
+  }
+
+  object ActionPlanner {
+    イベントをActionに変換する方法が
+    書いてあるActionPlanの集合体
+    ActionCratorのUseCaseが欲しいため。
+    UseCaseが欲しいってことは
+    結局別Appにした方が良いのでは
+  }
+
+  rectangle "Flux?" as Flux {
+  
+    object ActionCreator {
+      Actionを作成してDispatcherに送る
+    }
+
+    object Store {
+      Stateを更新・保持する
+    }
+
+    object Reducer {
+      ActionとStateから
+      あたらしいStateを作る
+      方法を書く
+    }
+
+    object Dispatcher {
+      Reducerの出力を
+      Storeに配信する
+    }
+    note right of Dispatcher
+      (State) -> State
+      もしかしてこれそのものが
+      Reducerなのでは
+    end note
+  }
+}
+
+DB <-- Gateway
+Api <-- Gateway
+
+View --> Controller
+View -- ViewModel
+ViewModel <- Presenter 
+
+Gateway --|> DataProvider
+DataProvider --|> ActionDataProvider
+ActionDataProvider <- ActionPlanner
+
+Presenter --|> StateElementListener
+StateTranslator -> StateElementListener
+StateTranslator --|> StateRecipient
+StateRecipient <-- Store
+Controller --> EventOperator
+EventOperator --> ActionPlanner
+ActionPlanner --> ActionCreator
+ActionCreator --> Dispatcher
+Store <-- Dispatcher
+Dispatcher -- Reducer
+
+Store -[hidden]l- ActionCreator
+
+@enduml

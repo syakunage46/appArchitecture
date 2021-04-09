@@ -1,0 +1,65 @@
+@startuml fluxRedux
+!include ../style.pu
+rectangle ExternalModule {
+  object ExternalPort
+
+  object GetDataSouce
+
+  object DataSource {
+    ローカルとリモートのデータソースを統合したもの
+  }
+
+  object LocalDataSource {
+    DBとか
+  }
+
+  object RemoteDataSource {
+    Apiとか
+  }
+}
+
+rectangle App {
+  rectangle FrameWorks as App.FrameWorks {
+    object DataSourceAdapter {
+
+    }
+  }
+
+  rectangle InterfaseAdapters {
+
+    InterFace DataSourceProvider {
+
+    }
+    object Repository {
+      DataSourceのUseCasesにあたる
+    }
+  }
+  rectangle UseCases {
+    object GetResource {
+      Repositoryのからデータを取得する
+      Entityに変換？
+    }
+
+    InterFace ResourceProvider
+  }
+  rectangle Entities {
+    object Data {
+      Appで使うデータ
+    }
+  }
+}
+
+DataSourceAdapter --|> DataSourceProvider
+DataSourceProvider <- Repository
+Repository --|> ResourceProvider
+ResourceProvider <- GetResource
+GetResource --> Data
+
+ExternalPort --> GetDataSouce
+GetDataSouce --> DataSource
+DataSource *-- LocalDataSource 
+DataSource *-- RemoteDataSource 
+
+ExternalPort - DataSourceAdapter
+
+@enduml

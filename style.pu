@@ -1,0 +1,118 @@
+@startuml style
+!$primaryColor = "#2D74BA"
+!$secondaryColor = "#FF9800"
+!$backgroundColor = "#FFFFFF"
+!$groundColor = "#333333"
+!$rectangleBackgroundColor = "#EEEEEE"
+!$gray = "#454645"
+
+' defaults
+
+skinparam DefaultFontName Proxima Nova
+skinparam ArrowColor $secondaryColor
+skinparam DefaultFontColor $gray
+
+' BorderColor
+skinparam ActivityBorderColor $primaryColor
+skinparam ActivityDiamondBorderColor $primaryColor
+skinparam ActorBorderColor $primaryColor
+skinparam AgentBorderColor $primaryColor
+skinparam ArtifactBorderColor $primaryColor
+skinparam CardBorderColor $primaryColor
+skinparam ClassBorderColor $primaryColor
+skinparam CloudBorderColor $primaryColor
+skinparam CollectionsBorderColor $primaryColor
+skinparam ComponentBorderColor $primaryColor
+skinparam ControlBorderColor $primaryColor
+skinparam BoundaryBorderColor $primaryColor
+skinparam DatabaseBorderColor $primaryColor
+skinparam EntityBorderColor $primaryColor
+skinparam FileBorderColor $primaryColor
+skinparam FolderBorderColor $primaryColor
+skinparam FrameBorderColor $primaryColor
+skinparam InterfaceBorderColor $primaryColor
+skinparam LegendBorderColor $primaryColor
+skinparam NodeBorderColor $primaryColor
+skinparam NoteBorderColor $primaryColor
+skinparam ObjectBorderColor $primaryColor
+skinparam PackageBorderColor $primaryColor
+skinparam PageBorderColor $primaryColor
+skinparam ParticipantBorderColor $primaryColor
+skinparam PartitionBorderColor $primaryColor
+skinparam QueueBorderColor $primaryColor
+skinparam RectangleBorderColor $primaryColor
+skinparam SequenceBoxBorderColor $primaryColor
+skinparam SequenceDividerBorderColor $primaryColor
+skinparam SequenceGroupBorderColor $primaryColor
+skinparam SequenceLifeLineBorderColor $primaryColor
+skinparam SequenceReferenceBorderColor $primaryColor
+skinparam StackBorderColor $primaryColor
+skinparam StateBorderColor $primaryColor
+skinparam StereotypeABorderColor $primaryColor
+skinparam StereotypeCBorderColor $primaryColor
+skinparam StereotypeEBorderColor $primaryColor
+skinparam StereotypeIBorderColor $primaryColor
+skinparam StereotypeNBorderColor $primaryColor
+skinparam StorageBorderColor $primaryColor
+skinparam SwimlaneBorderColor $primaryColor
+skinparam UsecaseBorderColor $primaryColor
+
+' BackgroundColor
+skinparam ActivityBackgroundColor $backgroundColor
+skinparam ActivityDiamondBackgroundColor $backgroundColor
+skinparam ActorBackgroundColor $backgroundColor
+skinparam AgentBackgroundColor $backgroundColor
+skinparam ArtifactBackgroundColor $backgroundColor
+skinparam BackgroundColor $groundColor
+skinparam BoundaryBackgroundColor $backgroundColor
+skinparam CardBackgroundColor $backgroundColor
+skinparam ClassBackgroundColor $backgroundColor
+skinparam ClassHeaderBackgroundColor $backgroundColor
+skinparam CloudBackgroundColor $backgroundColor
+skinparam CollectionsBackgroundColor $backgroundColor
+skinparam ComponentBackgroundColor $backgroundColor
+skinparam BoundaryBackgroundColor $backgroundColor
+skinparam ControlBackgroundColor $backgroundColor
+skinparam DatabaseBackgroundColor $backgroundColor
+skinparam EntityBackgroundColor $backgroundColor
+skinparam FileBackgroundColor $backgroundColor
+skinparam FolderBackgroundColor $backgroundColor
+skinparam FrameBackgroundColor $backgroundColor
+skinparam IconPackageBackgroundColor $backgroundColor
+skinparam IconPrivateBackgroundColor $backgroundColor
+skinparam IconProtectedBackgroundColor $backgroundColor
+skinparam IconPublicBackgroundColor $backgroundColor
+skinparam InterfaceBackgroundColor $backgroundColor
+skinparam LegendBackgroundColor $backgroundColor
+skinparam NodeBackgroundColor $backgroundColor
+skinparam NoteBackgroundColor $backgroundColor
+skinparam ObjectBackgroundColor $backgroundColor
+skinparam PackageBackgroundColor $backgroundColor
+skinparam ParticipantBackgroundColor $backgroundColor
+skinparam PartitionBackgroundColor $backgroundColor
+skinparam QueueBackgroundColor $backgroundColor
+skinparam RectangleBackgroundColor $rectangleBackgroundColor
+skinparam SequenceBoxBackgroundColor $backgroundColor
+skinparam SequenceDividerBackgroundColor $backgroundColor
+skinparam SequenceGroupBackgroundColor $backgroundColor
+skinparam SequenceGroupBodyBackgroundColor $backgroundColor
+skinparam SequenceLifeLineBackgroundColor $backgroundColor
+skinparam SequenceReferenceBackgroundColor $backgroundColor
+skinparam SequenceReferenceHeaderBackgroundColor $backgroundColor
+skinparam StackBackgroundColor $backgroundColor
+skinparam StateBackgroundColor $backgroundColor
+skinparam StereotypeABackgroundColor $backgroundColor
+skinparam StereotypeCBackgroundColor $backgroundColor
+skinparam StereotypeEBackgroundColor $backgroundColor
+skinparam StereotypeIBackgroundColor $backgroundColor
+skinparam StereotypeNBackgroundColor $backgroundColor
+skinparam StorageBackgroundColor $backgroundColor
+skinparam TitleBackgroundColor $backgroundColor
+skinparam UsecaseBackgroundColor $backgroundColor
+
+' StateColor
+skinparam ActivityStartColor $gray
+skinparam ActivityEndColor $gray
+skinparam StateStartColor $gray
+skinparam StateEndColor $gray
+@enduml

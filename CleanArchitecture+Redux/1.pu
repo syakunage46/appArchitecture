@@ -1,0 +1,81 @@
+@startuml cleanArchitecture
+
+package app {
+  frame Frameworks {
+    class View
+    class ExternalAppAdapter
+  }
+
+  frame InterfaseAdapters {
+    class Controller
+    class Presenter
+    class ViewModel
+    class Gateway
+
+    frame Redux {
+      class Reducer 
+      class Store
+      class Dispatcher
+      class ActionCreater
+    }
+  }
+}
+
+package externalRepository {
+  frame externalRepository.Frameworks {
+    class externalRepository.Frameworks.ExternalAppAdapter
+  }
+
+  frame externalRepository.InterfaseAdapters {
+    class Repository
+    note left of Repository
+    Repositoryは
+    Gatewayです
+    end note
+  }
+
+  frame RepositoryUseCase {
+    class GetData
+  }
+
+  frame Entities {
+    class DataSource {
+      local
+      remote
+    }
+
+    frame Core {
+      class DB
+      class Api
+    }
+  }
+}
+
+View -d-> Controller
+View -d- ViewModel
+
+Controller -> ActionCreater
+ActionCreater -> Dispatcher
+Dispatcher -> Store
+Store --> Reducer
+Store <-- Reducer
+
+Store -u-> Presenter
+
+ViewModel <- Presenter
+ActionCreater -u- Gateway
+
+Gateway -u-> ExternalAppAdapter
+
+externalRepository.Frameworks.ExternalAppAdapter - ExternalAppAdapter
+externalRepository.Frameworks.ExternalAppAdapter -- Repository
+Repository -- RepositoryUseCase
+RepositoryUseCase -- DataSource
+DataSource -- Core
+
+Controller -r[hidden]- ViewModel 
+Gateway -r[hidden]- Controller
+
+ExternalAppAdapter -r[hidden]- View
+
+@enduml

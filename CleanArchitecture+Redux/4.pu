@@ -1,0 +1,144 @@
+@startuml fluxRedux
+!include ../style.pu
+
+rectangle "App(Viewだけ担当)" as App {
+  rectangle App::Frameworks {
+    object View {
+      ViewModelとBinding
+      (ViewModelの値が更新されたら
+      Viewを更新する)
+      Controllerにイベントを通知
+    }
+
+    object StateListener
+    object EventCaster
+  }
+
+  rectangle App::InterfaseAdapters {
+    object ViewController {
+      Viewイベントを通知
+    }
+
+    object ViewPresenter {
+      受け取ったデータを
+      View用に変換する
+      Viewロジックを
+      エンティティに書いてもいいかも
+    }
+
+    object ViewModel {
+      Presenterから受け取った
+      View用のデータを保持する
+    }
+  }
+}
+
+rectangle Adapter {
+  object EventAdapter
+  object StateAdapter
+}
+
+rectangle "StateHolder(Stateは複雑すぎるので外に置く)" as StateHolder {
+  rectangle StateHolder::Frameworks {
+    object EventListener
+    object StateCaster
+
+    
+    object ExternalDataSource {
+      DBとかApi
+      またはそれをあつかうモジュール
+    }
+  }
+
+  rectangle StateHolder::InterfaseAdapters {
+    object Repository
+    Interface RepositoryDataSource
+    object EventController {
+      イベントをもとに
+      UseCaseを実行
+    }
+
+    object StateStore {
+      Stateを更新・保持する
+    }
+  }
+
+  rectangle UseCases {
+    interface DataProvider
+    object ActionPlanner {
+      イベントをActionに変換する方法が
+      書いてあるActionPlanの集合体
+      取り替え可能にすれば再使用可能
+    }
+    object StateDispatcher {
+      Reducerの出力を配信する
+    }
+    Interface StateRecipient
+  }
+
+  rectangle Entities {
+    interface ReduceReceiver
+
+    
+    object ActionCreator {
+      Actionを作成してDispatcherに送る
+    }
+
+    object Reducer {
+      ActionとStateから
+      あたらしいStateを作る
+      方法を書く
+      Presenter的な側面がある
+    }
+
+  }
+}
+
+' ----------Adapter----------
+EventCaster --> EventAdapter
+EventAdapter --> EventListener
+StateAdapter <-- StateCaster 
+StateListener <-- StateAdapter
+
+' Style
+StateAdapter -[hidden]r- EventAdapter
+' ----------AdapterEnd----------
+
+' ----------View----------
+ViewController <-- View
+ViewModel -- View
+ViewModel <- ViewPresenter 
+
+StateListener --> ViewPresenter
+EventCaster <-- ViewController
+
+' ----------State----------
+
+' Event -> Action
+EventListener --> EventController
+EventController --> ActionPlanner
+ActionPlanner --> ActionCreator
+ActionCreator --> Reducer
+' Action -> State
+ReduceReceiver <-- Reducer
+' State Cast
+StateDispatcher --|> ReduceReceiver
+StateDispatcher -> StateRecipient
+StateStore --|> StateRecipient
+StateCaster -- StateStore
+
+' Repository
+ActionPlanner -> DataProvider
+Repository --|> DataProvider 
+Repository -> RepositoryDataSource
+ExternalDataSource --|> RepositoryDataSource
+
+' Style
+ExternalDataSource -[hidden]r- EventListener
+EventListener -[hidden]r- StateCaster
+
+Repository -[hidden]r- EventController
+EventController -[hidden]r- StateStore
+
+
+@enduml
